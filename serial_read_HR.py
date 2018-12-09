@@ -8,25 +8,18 @@ import matplotlib.pyplot as plt
 import datetime as dt
 # import matplotlib.animation as animation
 import numpy as np
+import hr_plotter
 
 plt.style.use('ggplot')
 
-ser = serial.Serial('/dev/tty.usbmodem14201', 9600) # Establish the connection on a specific port
-# counter = 32 # Below 32 everything in ASCII is gibberish
-# while True:
-#      counter +=1
-#      ser.write(str(chr(counter))) # Convert the decimal number to ASCII then send it to the Arduino
-#      print ser.readline() # Read the newest output from the Arduino
-#      sleep(.1) # Delay for one tenth of a second
-#      if counter == 255:
-#      counter = 32
+ser = serial.Serial('/dev/tty.usbmodem14201', 9600)
+
 MAX_HISTORY = 250
 # Keep a log of previous values for 250 'logs'
-# Generate min, max and threshold.
 
 history = []
 TOTAL_BEATS = 30
-pulse_graph=[]
+# pulse_graph=[]
 
 # This should be moved into its own .py file
 def calculate_bpm(beats):
@@ -35,11 +28,13 @@ def calculate_bpm(beats):
     if beat_time:
         bpm = (len(beats) / (beat_time)) * 60
         # print ("%d bpm" % bpm)
-        ts = time.time()
-        print (datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d, %H:%M:%S, ')+ ("%d bpm" % bpm))
+        # ts = time.time() reactivate this only if  time stamp is needed
+        # print (datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d, %H:%M:%S, ')+ ("%d bpm" % bpm)) reactivate this only if  time stamp is needed
+        print (bpm)
+        # live_plotter()
 
 def detect():
-    history = []
+    # history = []
     beats = []
     beat = False
 
@@ -54,7 +49,6 @@ def detect():
          # sleep(.01)
 
              history.append(v3)
-            # Get the tail, up to MAX_HISTORY length
              history = history[-MAX_HISTORY:]
 
              minima, maxima = min(history), max(history)
@@ -73,7 +67,7 @@ def detect():
 
 
 
-# Use this to test pulse detection in Bash
+# Use this to test pulse detection with your Ardunio in Bash in stead of the above if loop
              # if v3 > threshold_on:
              #     print ("PULSE")
              #
