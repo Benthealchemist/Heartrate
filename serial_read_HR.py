@@ -4,13 +4,10 @@ from time import sleep
 import time
 import serial
 import datetime
-import matplotlib.pyplot as plt
 import datetime as dt
-# import matplotlib.animation as animation
 import numpy as np
 import hr_plotter
 
-plt.style.use('ggplot')
 
 ser = serial.Serial('/dev/tty.usbmodem14201', 9600)
 
@@ -28,13 +25,13 @@ def calculate_bpm(beats):
     if beat_time:
         bpm = (len(beats) / (beat_time)) * 60
         # print ("%d bpm" % bpm)
-        # ts = time.time() reactivate this only if  time stamp is needed
-        # print (datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d, %H:%M:%S, ')+ ("%d bpm" % bpm)) reactivate this only if  time stamp is needed
-        print (bpm)
+        ts = time.time() #reactivate this only if  time stamp is needed
+        print (datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d, %H:%M:%S, ')+ ("%d bpm" % bpm)) #reactivate this only if  time stamp is needed
+        # print (bpm)
         # live_plotter()
 
 def detect():
-    # history = []
+    history = []
     beats = []
     beat = False
 
